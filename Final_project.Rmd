@@ -1,0 +1,77 @@
+---
+title: "Final_project"
+output: html_document
+---
+# Loading packages
+
+```{r}
+library(tidyverse)
+```
+# Loading data
+
+
+```{r}
+life_exp <- read_csv("Data/life-expectancy.csv")
+
+health_expend <- read.csv("Data/public-expenditure-on-healthcare-as-share-of-national-gdp.csv")
+
+pop_change <- read.csv("Data/population.csv")
+
+```
+
+
+# Removing space in columnname in data on life expectancy
+```{r}
+life_exp %>% 
+  rename(Life_expectancy = `Life expectancy`) -> life_exp
+```
+
+
+# Visualising graphs on life expectancy in China, Egypt and the US
+
+
+```{r}
+life_exp %>% 
+  filter(Entity %in% c("United States", "Japan", "Norway")) %>% 
+  ggplot()+
+  geom_line(mapping = aes(x = Year, y = Life_expectancy))+
+  facet_wrap(~Entity, ncol = 2)
+```
+
+
+# Renaming last column in the data on health expenditure
+
+```{r}
+health_expend %>% 
+  rename(Public_health_expenditure = `Public.Expenditure.on.Health..Tanzi...Schuktnecht..2000..`) -> health_expend
+```
+
+# Visualising data on annual health expenditure for the chosen countries
+
+```{r}
+health_expend %>% 
+  filter(Entity %in% c("United States", "Japan", "Norway")) %>% 
+  ggplot()+
+  geom_line(mapping = aes(x = Year, y = Public_health_expenditure))+
+  facet_wrap(~Entity, ncol = 2)
+```
+
+# Renaming last column in data on population change
+
+```{r}
+pop_change %>% 
+  rename(Population_change = `Total.population..Gapminder..HYDE...UN.`) -> pop_change
+```
+
+# Visualising data on population change in the chosen countries
+
+```{r}
+pop_change %>% 
+  filter(Entity %in% c("United States", "Japan", "Norway")) %>% 
+  ggplot()+
+  geom_line(mapping = aes(x = Year, y = Population_change))+
+  facet_wrap(~Entity, ncol = 2)
+
+options(scipen = 999)
+```
+
